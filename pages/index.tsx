@@ -134,10 +134,7 @@ const Game: React.FC<GameProps> = ({ hasGoogleApiKey }) => {
             isVolumeOn={mainState.soundController.isVolumeOn}
           />
         </TopCornerButtons>
-        <PrivacyPolicy
-          mainStateDispatch={mainStateDispatch}
-          hasAcceptedPrivacyPolicy={mainState.hasAcceptedPrivacyPolicy}
-        />
+        
         {/* Top-right Logo */}
         <TopRightLogo>
           <img src="/Logo_white.png" alt="Logo" />

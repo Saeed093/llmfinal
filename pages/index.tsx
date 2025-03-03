@@ -1,6 +1,5 @@
 import { useGameContext } from "@/components/GameContextProvider";
 import { Loading } from "@/components/Loading";
-import { PrivacyPolicy } from "@/components/PrivacyPolicy";
 import { Volume } from "@/components/Volume";
 import { WebGLNotSupported } from "@/components/WebGLErrors";
 import { Chat } from "@/components/chat/Chat.client";
@@ -14,6 +13,42 @@ import { MainState, MainStateAction, MainStateDispatch, Model } from "@/lib/type
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useImmerReducer } from "use-immer";
+
+import { useState } from "react";
+import Recorder from "../components/Recorder";
+
+const ChatPage: React.FC = () => {
+  const [isSessionActive, setIsSessionActive] = useState<boolean>(false);
+
+  function startSession() {
+    console.log("🔵 Session started!");
+    setIsSessionActive(true);
+  }
+
+  function disconnectSession() {
+    console.log("🔴 Session ended! Stopping recording...");
+    setIsSessionActive(false);
+  }
+
+  return (
+    <div>
+      <h1>Chat with AI</h1>
+      <button onClick={startSession} disabled={isSessionActive}>
+        Start Session
+      </button>
+      <button onClick={disconnectSession} disabled={!isSessionActive}>
+        Disconnect
+      </button>
+
+      {/* Recorder starts/stops based on session state */}
+      <Recorder isSessionActive={isSessionActive} />
+    </div>
+  );
+};
+
+export { ChatPage };
+
+
 
 let didInit = false;
 
@@ -134,7 +169,7 @@ const Game: React.FC<GameProps> = ({ hasGoogleApiKey }) => {
             isVolumeOn={mainState.soundController.isVolumeOn}
           />
         </TopCornerButtons>
-        
+
         {/* Top-right Logo */}
         <TopRightLogo>
           <img src="/Logo_white.png" alt="Logo" />
